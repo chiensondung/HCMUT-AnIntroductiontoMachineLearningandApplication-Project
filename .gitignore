@@ -1,3 +1,6 @@
 .venv/
 *.conflict*
 __pycache__/
+README_Son.md
+*.xlsx
+~$*
