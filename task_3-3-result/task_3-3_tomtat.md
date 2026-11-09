@@ -1,0 +1,18 @@
+# Kết quả Task 3.3: MLP (120-60-20, ReLU) + Aggregate Ensemble theo AUC-ROC
+
+## Trọng số ensemble (tỉ lệ thuận AUC-ROC trên validation)
+
+LogisticRegression    0.2497
+RandomForest          0.2474
+GradientBoosting      0.2531
+MLP_120_60_20         0.2498
+
+## Kết quả trên tập test
+
+|                    |   trong_so_ensemble |   AUC-ROC |   Accuracy |   Recall |     F1 |
+|:-------------------|--------------------:|----------:|-----------:|---------:|-------:|
+| LogisticRegression |              0.2497 |    0.6902 |     0.6391 |   0.5856 | 0.6005 |
+| RandomForest       |              0.2474 |    0.6793 |     0.6287 |   0.5924 | 0.5964 |
+| GradientBoosting   |              0.2531 |    0.6995 |     0.6442 |   0.6084 | 0.613  |
+| MLP_120_60_20      |              0.2498 |    0.6914 |     0.6404 |   0.5798 | 0.5989 |
+| Aggregate_Ensemble |            nan      |    0.7005 |     0.6449 |   0.5907 | 0.6064 |
