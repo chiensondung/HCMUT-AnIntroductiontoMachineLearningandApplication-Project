@@ -1,6 +1,9 @@
-"""Task 1.3 (độc lập, không phụ thuộc src/01-03):
+"""
+Task 1.3 (độc lập, không phụ thuộc src/01-03):
 đọc trực tiếp diabetic_data.csv, xóa dòng khuyết <2%, tạo nhãn đa lớp (y_multi)
-+ nhị phân (y_bin), chia train/test 80/20."""
++ nhị phân (y_bin), chia train/test 80/20.
+"""
+
 import pandas as pd
 from sklearn.model_selection import StratifiedGroupKFold
 
