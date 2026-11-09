@@ -104,6 +104,11 @@ Z_train = np.asarray(X_train @ W) - mu @ W
 Z_test = np.asarray(X_test @ W) - mu @ W
 assert Z_train.shape == (len(train), N_COMPONENTS) and Z_test.shape == (len(test), N_COMPONENTS)
 
+import os
+import shutil
+
+os.makedirs("output", exist_ok=True)
+
 np.save("data/X_train_pca.npy", Z_train)
 np.save("data/X_test_pca.npy", Z_test)
 np.save("data/pca_eigenvalues.npy", eigvals)
@@ -118,4 +123,9 @@ pd.DataFrame({
     "ty_le_luy_tich": ty_le_luy_tich[:N_COMPONENTS],
 }).to_csv("data/pca_explained_variance.csv", index=False)
 
-print("\nĐã lưu Z_train:", Z_train.shape, "| Z_test:", Z_test.shape)
+# Bản sao gọn trong output/: chỉ các file người sau cần lấy để dùng tiếp (không gồm input gốc)
+for ten in ["X_train_pca.npy", "X_test_pca.npy", "pca_eigenvalues.npy", "pca_components.npy",
+            "pca_feature_names.txt", "pca_explained_variance.csv", "y_train.csv", "y_test.csv"]:
+    shutil.copy(f"data/{ten}", f"output/{ten}")
+
+print("\nĐã lưu Z_train:", Z_train.shape, "| Z_test:", Z_test.shape, "(và bản sao trong output/)")
