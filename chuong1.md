@@ -3,30 +3,33 @@
 ## 1.1. Đặt vấn đề và mục tiêu bài toán
 
 ### 1.1.1. Đặt vấn đề
-Đái tháo đường là bệnh mạn tính phổ biến, đòi hỏi theo dõi và điều trị liên tục. Bệnh nhân nhập viện có thể bị tái nhập viện sau khi xuất viện do điều trị chưa ổn định, biến chứng hoặc thiếu chăm sóc sau xuất viện. Tái nhập viện sớm (trong vòng 30 ngày) làm tăng chi phí y tế, gây quá tải cho bệnh viện và thường được xem là một chỉ báo của chất lượng chăm sóc. Vì vậy, nhận diện sớm nhóm bệnh nhân có nguy cơ cao ngay tại thời điểm xuất viện giúp bệnh viện phân bổ nguồn lực theo dõi, tái khám và can thiệp hợp lý.
+Đái tháo đường là bệnh mạn tính cần theo dõi và điều trị liên tục. Sau khi xuất viện, nhiều bệnh nhân phải nhập viện lại vì điều trị chưa ổn định, biến chứng hoặc thiếu chăm sóc sau xuất viện. Tái nhập viện trong vòng 30 ngày làm tăng chi phí y tế, gây quá tải cho bệnh viện và thường được dùng như một chỉ báo chất lượng chăm sóc. Nếu nhận diện được nhóm nguy cơ cao ngay lúc xuất viện, bệnh viện có thể ưu tiên nguồn lực theo dõi, tái khám và can thiệp cho nhóm này.
 
-Dữ liệu sử dụng là bộ *Diabetes 130-US hospitals for years 1999–2008* (UCI), gồm 101.766 lượt nhập viện của bệnh nhân đái tháo đường tại 130 bệnh viện Hoa Kỳ, với 50 thuộc tính gốc (nhân khẩu học, thông tin lượt nhập viện, xét nghiệm, chẩn đoán, 23 thuốc điều trị, nhãn `readmitted`). Dữ liệu có nhiều thách thức: giá trị khuyết (`weight` ≈ 96,9%, `max_glu_serum` ≈ 94,7%, `A1Cresult` ≈ 83,3%, `payer_code` ≈ 39,6%, `medical_specialty` ≈ 49,1%), thuộc tính phân loại bậc cao (mã chẩn đoán `diag_1..3`) và mất cân bằng lớp.
+Báo cáo dùng bộ dữ liệu *Diabetes 130-US hospitals for years 1999–2008* (UCI): 101.766 lượt nhập viện của bệnh nhân đái tháo đường (71.518 bệnh nhân) tại 130 bệnh viện Hoa Kỳ, gồm 50 thuộc tính (nhân khẩu học, thông tin nhập viện, xét nghiệm, chẩn đoán, 23 thuốc điều trị và nhãn `readmitted`). Dữ liệu có ba khó khăn chính:
+- **Giá trị khuyết nhiều**: `weight` ≈ 96,9%, `max_glu_serum` ≈ 94,7%, `A1Cresult` ≈ 83,3%, `medical_specialty` ≈ 49,1%, `payer_code` ≈ 39,6%.
+- **Biến phân loại bậc cao**: mã chẩn đoán `diag_1`, `diag_2`, `diag_3`.
+- **Mất cân bằng lớp**: nhãn `<30` chỉ chiếm ≈ 11,2%.
 
 ### 1.1.2. Phát biểu bài toán
-Cho vector đặc trưng **x** của một lượt nhập viện, dự đoán nhãn `readmitted`. Hai bộ nhãn mục tiêu được xây dựng:
-- **Đa lớp** (`y_multi`): `<30` (tái nhập viện trong 30 ngày), `>30` (sau 30 ngày), `NO` (không tái nhập viện).
-- **Nhị phân** (`y_bin`): `1` = Readmitted (`<30` hoặc `>30`), `0` = Not readmitted (`NO`).
+Cho vector đặc trưng **x** của một lượt nhập viện, dự đoán nhãn `readmitted` ∈ {`<30`, `>30`, `NO`}. Hai bộ nhãn được xây dựng:
+- **Đa lớp** (`y_multi`): giữ nguyên `<30` (tái nhập viện trong 30 ngày), `>30` (sau 30 ngày), `NO` (không tái nhập viện).
+- **Nhị phân** (`y_bin`): `1` nếu tái nhập viện (`<30` hoặc `>30`), `0` nếu `NO`.
 
-Nhãn `<30` chỉ chiếm ≈ 11,2% nên bài toán đa lớp mất cân bằng; do đó đánh giá cần dùng Recall, F1, ROC-AUC/PR-AUC thay vì chỉ Accuracy. Nhóm `<30` được giữ riêng trong nhãn đa lớp để phục vụ mục tiêu dự đoán tái nhập viện sớm.
+Vì nhãn `<30` hiếm, đánh giá dùng Recall, F1, ROC-AUC và PR-AUC thay vì chỉ Accuracy.
 
 ### 1.1.3. Mục tiêu
-1. Khảo sát dữ liệu gốc và tiền xử lý: loại thuộc tính định danh, xử lý dữ liệu khuyết, mã hóa biến phân loại.
-2. Xây dựng và so sánh các mô hình học máy (ví dụ Logistic Regression, Random Forest, Gradient Boosting) cho dự đoán tái nhập viện trong 30 ngày.
+1. Khảo sát dữ liệu gốc và tiền xử lý: bỏ thuộc tính định danh, xử lý giá trị khuyết, mã hóa biến phân loại.
+2. Xây dựng và so sánh các mô hình (ví dụ Logistic Regression, Random Forest, Gradient Boosting) cho bài toán dự đoán tái nhập viện.
 3. Xử lý mất cân bằng lớp và đánh giá bằng các độ đo phù hợp.
-4. Phân tích tầm quan trọng của đặc trưng để rút ra yếu tố liên quan đến nguy cơ tái nhập viện.
+4. Phân tích tầm quan trọng của đặc trưng để rút ra các yếu tố liên quan đến nguy cơ tái nhập viện.
 
 ### 1.1.4. Bước đầu: loại bỏ thuộc tính định danh
-Ba thuộc tính được loại bỏ vì không mang ý nghĩa dự đoán (mã: `src/01_khao_sat_va_bo_dinh_danh.py`):
+Ba thuộc tính sau không mang ý nghĩa dự đoán nên bị loại (mã: `src/01_khao_sat_va_bo_dinh_danh.py`):
 
 | Thuộc tính | Lý do loại bỏ |
 |---|---|
-| `encounter_id` | Mã lượt nhập viện, duy nhất cho mỗi dòng (101.766 giá trị khác nhau) – chỉ là khóa, không có tính tổng quát. |
-| `patient_nbr` | Mã bệnh nhân (71.518 giá trị khác nhau); giữ lại dễ khiến mô hình ghi nhớ bệnh nhân và làm rò rỉ thông tin giữa tập huấn luyện/kiểm tra. |
+| `encounter_id` | Mã lượt nhập viện, duy nhất cho mỗi dòng (101.766 giá trị khác nhau); chỉ là khóa, không khái quát được. |
+| `patient_nbr` | Mã bệnh nhân (71.518 giá trị khác nhau); giữ lại dễ khiến mô hình ghi nhớ bệnh nhân và rò rỉ thông tin giữa tập huấn luyện và kiểm tra. |
 | `payer_code` | Mã bên thanh toán; khuyết ≈ 39,6% và là thông tin hành chính, ít liên quan lâm sàng. |
 
 Kết quả: 101.766 × 50 → **101.766 × 47**, lưu tại `data/diabetic_data_step1.csv`.
