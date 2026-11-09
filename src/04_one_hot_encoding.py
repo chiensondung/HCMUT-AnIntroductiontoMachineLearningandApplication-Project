@@ -1,6 +1,6 @@
 import pandas as pd
 
-IN = "output/diabetic_data_step1.csv"
+IN = "data/diabetic_data_step1.csv"
 
 df = pd.read_csv(IN, low_memory=False)
 print("Kích thước:", df.shape)
