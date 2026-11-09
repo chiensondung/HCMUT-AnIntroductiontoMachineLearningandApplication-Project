@@ -1,44 +1,50 @@
+"""Bước 04 (Dũng): One-Hot Encoding cho toàn bộ biến phân loại, fit trên train.
+Đọc:  output/train.csv, output/test.csv (bước 03)
+Ghi:  output/X_train_onehot.npz, output/X_test_onehot.npz, output/onehot_columns.txt,
+      output/y_train.csv, output/y_test.csv (cột y_multi, y_bin)"""
 import pandas as pd
-
-IN = "data/diabetic_data_step1.csv"
-
-df = pd.read_csv(IN, low_memory=False)
-print("Kích thước:", df.shape)
-
-# 3 cột này là số nhưng thực chất là mã loại, không có thứ tự
-ID_AS_CAT = ["admission_type_id", "discharge_disposition_id", "admission_source_id"]
-
-y = df.pop("readmitted")  # nhãn, không mã hóa
-cat_cols = df.select_dtypes(exclude="number").columns.tolist() + ID_AS_CAT
-num_cols = [c for c in df.columns if c not in cat_cols]
-
-print("Số biến phân loại:", len(cat_cols))
-print("Biến số giữ nguyên:", num_cols)
-print(df[cat_cols].nunique().sort_values(ascending=False).head(8))
-
 from scipy import sparse
 from sklearn.preprocessing import OneHotEncoder
 
-# Giá trị khuyết (NaN) thành một loại riêng "Missing"
-df[cat_cols] = df[cat_cols].astype("string").fillna("Missing")
+train = pd.read_csv("output/train.csv", low_memory=False)
+test = pd.read_csv("output/test.csv", low_memory=False)
+print("Train:", train.shape, "| Test:", test.shape)
 
-enc = OneHotEncoder(sparse_output=True, dtype="int8")
-X_cat = enc.fit_transform(df[cat_cols])
+LABELS = ["y_multi", "y_bin"]  # nhãn, không mã hóa
+X_train_raw, X_test_raw = train.drop(columns=LABELS), test.drop(columns=LABELS)
+
+# 3 cột này là số nhưng thực chất là mã loại, không có thứ tự
+ID_AS_CAT = ["admission_type_id", "discharge_disposition_id", "admission_source_id"]
+cat_cols = X_train_raw.select_dtypes(exclude="number").columns.tolist() + ID_AS_CAT
+num_cols = [c for c in X_train_raw.columns if c not in cat_cols]
+
+print("Số biến phân loại:", len(cat_cols))
+print("Biến số giữ nguyên:", num_cols)
+print(X_train_raw[cat_cols].nunique().sort_values(ascending=False).head(8))
+
+# Giá trị khuyết (NaN) thành một loại riêng "Missing"
+for part in (X_train_raw, X_test_raw):
+    part[cat_cols] = part[cat_cols].astype("string").fillna("Missing")
+
+# Fit trên train; loại chỉ có ở test (ví dụ mã ICD-9 hiếm) thành toàn 0
+enc = OneHotEncoder(sparse_output=True, dtype="float64", handle_unknown="ignore")
+Xc_train = enc.fit_transform(X_train_raw[cat_cols])
+Xc_test = enc.transform(X_test_raw[cat_cols])
 cat_names = enc.get_feature_names_out(cat_cols).tolist()
 
-print("\nSố cột One-Hot:", X_cat.shape[1])
+print("\nSố cột One-Hot:", Xc_train.shape[1])
 for d in ["diag_1", "diag_2", "diag_3"]:
     print(d, "->", sum(n.startswith(d + "_") for n in cat_names), "cột")
-print("Mỗi dòng có đúng 38 số 1:", X_cat.sum() == len(df) * len(cat_cols))
+print(f"Mỗi dòng train có đúng {len(cat_cols)} số 1:", Xc_train.sum() == len(train) * len(cat_cols))
 
-import os
-
-X = sparse.hstack([sparse.csr_matrix(df[num_cols].to_numpy(dtype="float32")), X_cat]).tocsr()
+X_train = sparse.hstack([sparse.csr_matrix(X_train_raw[num_cols].to_numpy("float64")), Xc_train]).tocsr()
+X_test = sparse.hstack([sparse.csr_matrix(X_test_raw[num_cols].to_numpy("float64")), Xc_test]).tocsr()
 all_cols = num_cols + cat_names
-assert X.shape == (len(df), len(all_cols))
+assert X_train.shape[1] == X_test.shape[1] == len(all_cols)
 
-os.makedirs("output", exist_ok=True)
-sparse.save_npz("output/X_onehot.npz", X)
-open("output/X_onehot_cols.txt", "w").write("\n".join(all_cols))
-y.to_csv("output/y.csv", index=False)
-print("\nĐã lưu X:", X.shape)
+sparse.save_npz("output/X_train_onehot.npz", X_train)
+sparse.save_npz("output/X_test_onehot.npz", X_test)
+open("output/onehot_columns.txt", "w").write("\n".join(all_cols))
+train[LABELS].to_csv("output/y_train.csv", index=False)
+test[LABELS].to_csv("output/y_test.csv", index=False)
+print("\nĐã lưu X_train:", X_train.shape, "| X_test:", X_test.shape)
