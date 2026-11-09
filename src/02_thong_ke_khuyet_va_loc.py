@@ -13,3 +13,10 @@ print("\nBỏ (khuyết >50%):", bo)
 df = df.drop(columns=bo)
 print("Kích thước:", df.shape)
 df.to_csv("data/diabetic_data_step2.csv", index=False)
+
+import os
+import shutil
+
+os.makedirs("output", exist_ok=True)
+for ten in ["ty_le_khuyet.csv", "diabetic_data_step2.csv"]:
+    shutil.copy(f"data/{ten}", f"output/{ten}")
