@@ -1,7 +1,7 @@
 """Bước 07b (Dũng): Softmax Regression (Logistic Regression multi-class) tự cài bằng numpy,
 so sánh PCA chưa chuẩn hóa vs đã chuẩn hóa.
 Đọc:  output/X_{train,test}_pca.npy, output/X_{train,test}_pca_scaled.npy, output/y_{train,test}.csv (cột y_multi)
-Ghi:  output/softmax_results.csv, output/softmax_loss.png
+Ghi:  output/softmax_results.csv, output/softmax_loss.png, output/softmax_confusion_*.csv, output/softmax_confusion.png
 Gradient descent toàn batch + L2; chọn (lr, lambda) bằng validation 80/20 tách từ train (macro-F1)."""
 import itertools
 import numpy as np
@@ -10,11 +10,26 @@ import matplotlib
 
 matplotlib.use("Agg")
 import matplotlib.pyplot as plt
-from sklearn.metrics import accuracy_score, f1_score
+from sklearn.metrics import accuracy_score, confusion_matrix, f1_score
 from sklearn.model_selection import train_test_split
 
 LRS, LAMBDAS, EPOCHS = [0.001, 0.01, 0.1, 0.5], [0.0, 1e-3, 1e-2], 500
 classes = np.array(["<30", ">30", "NO"])
+
+
+def plot_confusion(cms, path, title):
+    """cms: {mode: ma trận 3x3 đếm}; ô ghi số mẫu và % theo hàng (hàng = nhãn thật)."""
+    fig, axes = plt.subplots(1, len(cms), figsize=(6 * len(cms), 5))
+    for ax, (mode, cm) in zip(np.atleast_1d(axes), cms.items()):
+        pct = cm / cm.sum(1, keepdims=True)
+        ax.imshow(pct, cmap="Blues", vmin=0, vmax=1)
+        for i in range(3):
+            for j in range(3):
+                ax.text(j, i, f"{cm[i, j]}\n{pct[i, j]:.1%}", ha="center", va="center",
+                        color="white" if pct[i, j] > 0.5 else "black")
+        ax.set_xticks(range(3), classes); ax.set_yticks(range(3), classes)
+        ax.set_xlabel("Dự đoán"); ax.set_ylabel("Thực tế"); ax.set_title(mode)
+    fig.suptitle(title); fig.tight_layout(); fig.savefig(path, dpi=150); plt.close(fig)
 y_all = pd.read_csv("output/y_train.csv")["y_multi"].map({c: i for i, c in enumerate(classes)}).to_numpy()
 y_te = pd.read_csv("output/y_test.csv")["y_multi"].map({c: i for i, c in enumerate(classes)}).to_numpy()
 
@@ -49,7 +64,7 @@ _r = np.random.default_rng(0); _y = _r.integers(0, 3, 300); _x = np.eye(3)[_y] *
 _W, _b, _ = fit(_x, _y, 0.5, 0.0, 200)
 assert (predict(_x, _W, _b) == _y).mean() > 0.95
 
-rows, best_hist = [], {}
+rows, best_hist, cms = [], {}, {}
 for mode, suffix in [("chua_chuan_hoa", ""), ("da_chuan_hoa", "_scaled")]:
     X_all = np.load(f"output/X_train_pca{suffix}.npy")
     X_te = np.load(f"output/X_test_pca{suffix}.npy")
@@ -66,6 +81,8 @@ for mode, suffix in [("chua_chuan_hoa", ""), ("da_chuan_hoa", "_scaled")]:
     W, b, hist = fit(X_all, y_all, lr, lam)  # refit trên toàn bộ train
     best_hist[mode] = hist
     pred = predict(X_te, W, b)
+    cms[mode] = confusion_matrix(y_te, pred, labels=range(3))
+    pd.DataFrame(cms[mode], index=classes, columns=classes).to_csv(f"output/softmax_confusion_{mode}.csv")
     rows.append({"mode": mode, "lr": lr, "lambda": lam, "val_macro_f1": best[0],
                  "test_accuracy": accuracy_score(y_te, pred),
                  "test_macro_f1": f1_score(y_te, pred, average="macro"),
@@ -77,3 +94,4 @@ for mode, h in best_hist.items():
     plt.plot(h, label=mode)
 plt.xlabel("epoch"); plt.ylabel("cross-entropy loss (train)"); plt.legend(); plt.title("Softmax Regression: đường loss")
 plt.savefig("output/softmax_loss.png", dpi=150, bbox_inches="tight")
+plot_confusion(cms, "output/softmax_confusion.png", "Ma trận nhầm lẫn Softmax Regression (test)")
