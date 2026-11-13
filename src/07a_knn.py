@@ -1,6 +1,6 @@
 """Bước 07a (Dũng): k-NN tự cài (numpy), so sánh PCA chưa chuẩn hóa vs đã chuẩn hóa.
 Đọc:  output/X_{train,test}_pca.npy, output/X_{train,test}_pca_scaled.npy, output/y_{train,test}.csv (cột y_multi)
-Ghi:  output/knn_results.csv, output/knn_k_curve.png, output/knn_confusion_*.csv, output/knn_confusion.png
+Ghi:  output/knn_results.csv, output/knn_k_curve.png, output/pred_knn_{chua,da}_chuan_hoa.npy
 Chọn k bằng validation 80/20 tách từ train (macro-F1); test chỉ dùng để báo cáo."""
 import numpy as np
 import pandas as pd
@@ -8,27 +8,13 @@ import matplotlib
 
 matplotlib.use("Agg")
 import matplotlib.pyplot as plt
-from sklearn.metrics import accuracy_score, confusion_matrix, f1_score
+from sklearn.metrics import accuracy_score, f1_score
 from sklearn.model_selection import train_test_split
 
 KS = list(range(1, 52, 2))
 KMAX, BATCH = max(KS), 1024
 classes = np.array(["<30", ">30", "NO"])
 
-
-def plot_confusion(cms, path, title):
-    """cms: {mode: ma trận 3x3 đếm}; ô ghi số mẫu và % theo hàng (hàng = nhãn thật)."""
-    fig, axes = plt.subplots(1, len(cms), figsize=(6 * len(cms), 5))
-    for ax, (mode, cm) in zip(np.atleast_1d(axes), cms.items()):
-        pct = cm / cm.sum(1, keepdims=True)
-        ax.imshow(pct, cmap="Blues", vmin=0, vmax=1)
-        for i in range(3):
-            for j in range(3):
-                ax.text(j, i, f"{cm[i, j]}\n{pct[i, j]:.1%}", ha="center", va="center",
-                        color="white" if pct[i, j] > 0.5 else "black")
-        ax.set_xticks(range(3), classes); ax.set_yticks(range(3), classes)
-        ax.set_xlabel("Dự đoán"); ax.set_ylabel("Thực tế"); ax.set_title(mode)
-    fig.suptitle(title); fig.tight_layout(); fig.savefig(path, dpi=150); plt.close(fig)
 
 y_tr_all = pd.read_csv("output/y_train.csv")["y_multi"].map({c: i for i, c in enumerate(classes)}).to_numpy()
 y_te = pd.read_csv("output/y_test.csv")["y_multi"].map({c: i for i, c in enumerate(classes)}).to_numpy()
@@ -56,7 +42,7 @@ def predict(nl, k):
 _x = np.random.default_rng(0).normal(size=(50, 4)); _y = np.arange(50) % 3
 assert (predict(neighbor_labels(_x, _x, _y, 3), 1) == _y).all()
 
-rows, curves, cms = [], {}, {}
+rows, curves = [], {}
 for mode, suffix in [("chua_chuan_hoa", ""), ("da_chuan_hoa", "_scaled")]:
     X_all = np.load(f"output/X_train_pca{suffix}.npy")
     X_te = np.load(f"output/X_test_pca{suffix}.npy")
@@ -68,8 +54,7 @@ for mode, suffix in [("chua_chuan_hoa", ""), ("da_chuan_hoa", "_scaled")]:
     best_k = KS[int(np.argmax(f1s))]
 
     pred = predict(neighbor_labels(X_te, X_all, y_tr_all), best_k)  # refit trên toàn bộ train
-    cms[mode] = confusion_matrix(y_te, pred, labels=range(3))
-    pd.DataFrame(cms[mode], index=classes, columns=classes).to_csv(f"output/knn_confusion_{mode}.csv")
+    np.save(f"output/pred_knn_{mode}.npy", pred)  # nhãn dự đoán test, bước 10 đọc để đánh giá
     rows.append({"mode": mode, "best_k": best_k, "val_macro_f1": max(f1s),
                  "test_accuracy": accuracy_score(y_te, pred),
                  "test_macro_f1": f1_score(y_te, pred, average="macro"),
@@ -81,4 +66,3 @@ for mode, f1s in curves.items():
     plt.plot(KS, f1s, marker="o", label=mode)
 plt.xlabel("k"); plt.ylabel("macro-F1 (validation)"); plt.legend(); plt.title("k-NN: chọn k")
 plt.savefig("output/knn_k_curve.png", dpi=150, bbox_inches="tight")
-plot_confusion(cms, "output/knn_confusion.png", "Ma trận nhầm lẫn k-NN (test)")
