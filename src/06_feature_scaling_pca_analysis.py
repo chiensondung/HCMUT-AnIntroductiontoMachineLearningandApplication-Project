@@ -3,7 +3,8 @@
       output/pca_eigenvalues.npy (toàn bộ trị riêng, giảm dần),
       output/pca_components.npy (d x 60, mỗi CỘT là một vector riêng),
       output/pca_feature_names.txt (d tên đặc trưng, cùng thứ tự hàng của pca_components)
-Ghi:  output/X_train_pca_scaled.npy, output/X_test_pca_scaled.npy, output/eigenvalues.png"""
+Ghi:  output/X_train_pca_scaled.npy, output/X_test_pca_scaled.npy, output/eigenvalues.png,
+      output/eigenvalues.csv, output/top5_pc_dac_trung.csv, output/pca_summary.csv"""
 import numpy as np
 import pandas as pd
 import matplotlib
@@ -53,9 +54,23 @@ fig.savefig("output/eigenvalues.png", dpi=150)
 plt.close(fig)
 
 # --- 3. Top 5 vector riêng: các đặc trưng có trọng số |loading| lớn nhất ---
+top_rows = []
 for i in range(TOP_PC):
     v = V[:, i]
     idx = np.argsort(-np.abs(v))[:TOP_DAC_TRUNG]
     print(f"\nPC{i + 1}: eigenvalue = {eigvals[i]:.4f}, giải thích {ty_le[i]:.2%} phương sai")
     print(pd.DataFrame({"dac_trung": [ten_dac_trung[j] for j in idx],
                         "trong_so": v[idx].round(4)}).to_string(index=False))
+    top_rows += [{"pc": i + 1, "eigenvalue": eigvals[i], "ty_le_giai_thich": ty_le[i],
+                  "dac_trung": ten_dac_trung[j], "trong_so": v[j]} for j in idx]
+
+# --- 4. Lưu số liệu để báo cáo lấy từ file (không chép tay) ---
+pd.DataFrame({"component": np.arange(1, len(eigvals) + 1), "eigenvalue": eigvals,
+              "ty_le_giai_thich": ty_le, "ty_le_tich_luy": luy_tich}).round(6).to_csv(
+    "output/eigenvalues.csv", index=False)
+pd.DataFrame(top_rows).round(6).to_csv("output/top5_pc_dac_trung.csv", index=False)
+so_pc_80 = int(np.searchsorted(luy_tich, 0.80) + 1)
+pd.DataFrame([{"so_dac_trung": len(eigvals), "so_mau_train": len(X_train), "so_pc_giu": k,
+               "ty_le_giu": luy_tich[k - 1], "so_pc_can_80pc": so_pc_80}]).round(4).to_csv(
+    "output/pca_summary.csv", index=False)
+assert abs(ty_le.sum() - 1) < 1e-9 and np.allclose(scaler.transform(X_train).std(0), 1)

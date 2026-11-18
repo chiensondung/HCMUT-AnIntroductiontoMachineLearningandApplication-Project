@@ -1,6 +1,8 @@
 """Bước 03 (Chiến): xóa dòng khuyết ở cột khuyết <2%, tạo nhãn đa lớp + nhị phân, chia train/test 80/20.
 Đọc:  output/step2.csv, output/step1_patient_nbr.csv (cùng thứ tự dòng, chỉ dùng để chia theo bệnh nhân)
-Ghi:  output/train.csv (80.195 dòng), output/test.csv (20.049 dòng), giữ cột y_multi, y_bin"""
+Ghi:  output/train.csv, output/test.csv, giữ cột y_multi, y_bin
+      (lần chạy chuẩn trên Colab, scikit-learn 1.6.1: train 79.726 dòng, test 20.518 dòng;
+       cách chia StratifiedGroupKFold phụ thuộc phiên bản scikit-learn)"""
 import pandas as pd
 from sklearn.model_selection import StratifiedGroupKFold
 

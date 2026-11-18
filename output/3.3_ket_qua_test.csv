@@ -1,6 +1,0 @@
-,trong_so_ensemble,AUC-ROC,Accuracy,Recall,F1
-LogisticRegression,0.2441,0.6437,0.6029,0.6183,0.5905
-RandomForest,0.2501,0.6566,0.612,0.5642,0.5739
-GradientBoosting,0.2509,0.6637,0.6135,0.6327,0.6026
-MLP_120_60_20,0.2548,0.6736,0.6264,0.541,0.5729
-Aggregate_Ensemble,,0.6727,0.6263,0.5928,0.595

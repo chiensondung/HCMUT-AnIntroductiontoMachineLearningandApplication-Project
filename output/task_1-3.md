@@ -56,28 +56,29 @@ Ví dụ 2 dòng dữ liệu đầu (rút gọn để minh họa định dạng,
 
 ## 1.3.4. Xử lý theo yêu cầu Task 1.3
 
-Thực hiện độc lập trên `data/diabetic_data.csv` (script `2_task-1_3_chien.py`), gồm 3 bước:
+Thực hiện bằng bước 03 (`src/03_data_preprocessing_splitting.py`) của pipeline chung, đọc `output/step2.csv` (sau bước 01–02: bỏ định danh, bỏ cột khuyết > 50%) và `output/step1_patient_nbr.csv`, gồm 3 bước:
 
-1. **Lọc xóa dòng khuyết <2%**: tính tỉ lệ khuyết từng cột, xác định các cột có tỉ lệ khuyết trong (0%, 2%) là `diag_1`, `diag_2`, `diag_3`; xóa toàn bộ dòng khuyết ở các cột này.
+1. **Lọc xóa dòng khuyết <2%**: tính tỉ lệ khuyết từng cột, xác định các cột có tỉ lệ khuyết trong (0%, 2%) là `diag_1`, `diag_2`, `diag_3`; xóa toàn bộ dòng khuyết ở các cột này (xóa 1.522 dòng).
 2. **Tạo 2 bộ nhãn mục tiêu**:
-   - Đa lớp (`y_multi`): giữ nguyên 3 giá trị gốc của `readmitted` — `<30`, `>30`, `NO`.
+   - Đa lớp (`y_multi`): giữ nguyên 3 giá trị gốc của `readmitted`: `<30`, `>30`, `NO`.
    - Nhị phân (`y_bin`): `1` nếu `y_multi` khác `NO` (Readmitted), `0` nếu `y_multi = NO` (Not readmitted).
-3. **Chia Train/Test tỉ lệ 80/20**: phân tầng theo `y_multi`, nhóm theo `patient_nbr` để không bệnh nhân nào xuất hiện ở cả hai tập (`random_state=42`).
+3. **Chia Train/Test tỉ lệ 80/20** bằng `StratifiedGroupKFold` (5 phần, lấy 1 phần làm test, `shuffle=True`, `random_state=42`): phân tầng theo `y_multi`, nhóm theo `patient_nbr` để không bệnh nhân nào xuất hiện ở cả hai tập (có `assert` kiểm tra).
 
-**Kết quả chạy thực tế:**
+**Kết quả chạy chuẩn** (Google Colab, scikit-learn 1.6.1, pandas 2.2.3, numpy 2.4.6; cách chia phụ thuộc phiên bản scikit-learn):
 
 | Bước | Kích thước |
 | --- | --- |
 | Dữ liệu gốc | 101.766 × 50 |
-| Sau khi xóa dòng khuyết ở `diag_1/2/3` (bỏ 1.522 dòng) | 100.244 × 51 (thêm `y_multi`, `y_bin`) |
-| Train (80%) | 80.195 dòng |
-| Test (20%) | 20.049 dòng |
+| Sau bước 01–02 (bỏ định danh, bỏ cột khuyết > 50%) | 101.766 × 44 |
+| Sau khi xóa dòng khuyết ở `diag_1/2/3` (bỏ 1.522 dòng), thêm `y_multi`, `y_bin`, bỏ `readmitted` | 100.244 × 45 |
+| Train | 79.726 dòng (79,5%) |
+| Test | 20.518 dòng (20,5%) |
 
-Phân phối nhãn giống nhau giữa hai tập (chứng tỏ chia phân tầng đúng):
+Vì phải giữ nguyên cả nhóm bệnh nhân nên tỉ lệ chia thực tế không đúng 80/20 và phân phối nhãn của hai tập lệch nhau dưới 1 điểm phần trăm:
 
 | Tập | NO | >30 | <30 | y_bin = 1 |
 | --- | --- | --- | --- | --- |
-| Train | 53,69% | 35,09% | 11,22% | 46,31% |
-| Test | 53,69% | 35,09% | 11,22% | 46,31% |
+| Train | 53,81% | 35,03% | 11,16% | 46,19% |
+| Test | 53,23% | 35,30% | 11,47% | 46,77% |
 
-Dữ liệu được lưu tại `output/task_1-3_train.csv` và `output/task_1-3_test.csv`.
+Dữ liệu được ghi vào `output/train.csv` và `output/test.csv` (notebook tổng hợp tự sinh lại, không lưu bản sao riêng).

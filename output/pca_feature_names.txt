@@ -47,6 +47,7 @@ medical_specialty_InternalMedicine
 medical_specialty_Missing
 medical_specialty_Nephrology
 medical_specialty_Neurology
+medical_specialty_Neurophysiology
 medical_specialty_Obsterics&Gynecology-GynecologicOnco
 medical_specialty_Obstetrics
 medical_specialty_ObstetricsandGynecology
@@ -73,6 +74,7 @@ medical_specialty_PhysicianNotFound
 medical_specialty_Podiatry
 medical_specialty_Proctology
 medical_specialty_Psychiatry
+medical_specialty_Psychiatry-Addictive
 medical_specialty_Psychiatry-Child/Adolescent
 medical_specialty_Psychology
 medical_specialty_Pulmonology
@@ -81,7 +83,6 @@ medical_specialty_Radiology
 medical_specialty_Resident
 medical_specialty_Rheumatology
 medical_specialty_Speech
-medical_specialty_SportsMedicine
 medical_specialty_Surgeon
 medical_specialty_Surgery-Cardiovascular
 medical_specialty_Surgery-Cardiovascular/Thoracic
@@ -96,14 +97,13 @@ medical_specialty_Surgery-Thoracic
 medical_specialty_Surgery-Vascular
 medical_specialty_SurgicalSpecialty
 medical_specialty_Urology
+diag_1_10
 diag_1_11
 diag_1_110
 diag_1_112
-diag_1_114
 diag_1_115
 diag_1_117
 diag_1_131
-diag_1_133
 diag_1_135
 diag_1_136
 diag_1_141
@@ -113,7 +113,6 @@ diag_1_145
 diag_1_146
 diag_1_147
 diag_1_148
-diag_1_149
 diag_1_150
 diag_1_151
 diag_1_152
@@ -166,6 +165,7 @@ diag_1_212
 diag_1_214
 diag_1_215
 diag_1_216
+diag_1_217
 diag_1_218
 diag_1_219
 diag_1_220
@@ -260,7 +260,6 @@ diag_1_295
 diag_1_296
 diag_1_297
 diag_1_298
-diag_1_299
 diag_1_3
 diag_1_300
 diag_1_301
@@ -298,7 +297,6 @@ diag_1_342
 diag_1_344
 diag_1_345
 diag_1_346
-diag_1_347
 diag_1_348
 diag_1_349
 diag_1_35
@@ -323,6 +321,7 @@ diag_1_368
 diag_1_369
 diag_1_370
 diag_1_372
+diag_1_373
 diag_1_374
 diag_1_375
 diag_1_376
@@ -495,6 +494,8 @@ diag_1_579
 diag_1_58
 diag_1_580
 diag_1_581
+diag_1_582
+diag_1_583
 diag_1_584
 diag_1_585
 diag_1_586
@@ -513,6 +514,7 @@ diag_1_601
 diag_1_602
 diag_1_603
 diag_1_604
+diag_1_605
 diag_1_607
 diag_1_608
 diag_1_61
@@ -534,7 +536,7 @@ diag_1_627
 diag_1_632
 diag_1_633
 diag_1_634
-diag_1_637
+diag_1_640
 diag_1_641
 diag_1_642
 diag_1_643
@@ -559,15 +561,15 @@ diag_1_663
 diag_1_664
 diag_1_665
 diag_1_669
+diag_1_671
 diag_1_674
 diag_1_680
 diag_1_681
 diag_1_682
-diag_1_683
-diag_1_684
 diag_1_685
 diag_1_686
 diag_1_690
+diag_1_691
 diag_1_692
 diag_1_693
 diag_1_694
@@ -631,7 +633,6 @@ diag_1_788
 diag_1_789
 diag_1_79
 diag_1_790
-diag_1_791
 diag_1_792
 diag_1_793
 diag_1_794
@@ -664,11 +665,15 @@ diag_1_823
 diag_1_824
 diag_1_825
 diag_1_826
+diag_1_827
 diag_1_831
+diag_1_832
+diag_1_833
 diag_1_834
 diag_1_835
 diag_1_836
 diag_1_837
+diag_1_838
 diag_1_839
 diag_1_84
 diag_1_840
@@ -692,7 +697,6 @@ diag_1_864
 diag_1_865
 diag_1_866
 diag_1_867
-diag_1_868
 diag_1_870
 diag_1_871
 diag_1_873
@@ -704,11 +708,13 @@ diag_1_880
 diag_1_881
 diag_1_882
 diag_1_883
+diag_1_885
 diag_1_886
 diag_1_890
 diag_1_891
 diag_1_892
 diag_1_893
+diag_1_895
 diag_1_897
 diag_1_9
 diag_1_903
@@ -716,8 +722,9 @@ diag_1_904
 diag_1_906
 diag_1_911
 diag_1_913
-diag_1_915
+diag_1_914
 diag_1_916
+diag_1_917
 diag_1_919
 diag_1_920
 diag_1_921
@@ -731,10 +738,11 @@ diag_1_935
 diag_1_936
 diag_1_939
 diag_1_94
+diag_1_941
 diag_1_942
+diag_1_944
 diag_1_945
 diag_1_952
-diag_1_955
 diag_1_957
 diag_1_958
 diag_1_959
@@ -765,13 +773,15 @@ diag_1_989
 diag_1_990
 diag_1_991
 diag_1_992
+diag_1_994
 diag_1_995
 diag_1_996
 diag_1_997
 diag_1_998
 diag_1_999
 diag_1_E909
-diag_1_V07
+diag_1_V25
+diag_1_V26
 diag_1_V43
 diag_1_V45
 diag_1_V51
@@ -783,7 +793,6 @@ diag_1_V57
 diag_1_V58
 diag_1_V63
 diag_1_V66
-diag_1_V67
 diag_1_V71
 diag_2_11
 diag_2_110
@@ -813,6 +822,7 @@ diag_2_171
 diag_2_172
 diag_2_173
 diag_2_174
+diag_2_179
 diag_2_180
 diag_2_182
 diag_2_183
@@ -847,7 +857,9 @@ diag_2_225
 diag_2_226
 diag_2_227
 diag_2_228
+diag_2_232
 diag_2_233
+diag_2_235
 diag_2_238
 diag_2_239
 diag_2_240
@@ -869,7 +881,6 @@ diag_2_250.21
 diag_2_250.22
 diag_2_250.23
 diag_2_250.3
-diag_2_250.31
 diag_2_250.32
 diag_2_250.33
 diag_2_250.4
@@ -894,7 +905,6 @@ diag_2_251
 diag_2_252
 diag_2_253
 diag_2_255
-diag_2_256
 diag_2_258
 diag_2_259
 diag_2_260
@@ -902,7 +912,6 @@ diag_2_261
 diag_2_262
 diag_2_263
 diag_2_266
-diag_2_268
 diag_2_269
 diag_2_27
 diag_2_270
@@ -937,7 +946,6 @@ diag_2_298
 diag_2_299
 diag_2_300
 diag_2_301
-diag_2_302
 diag_2_303
 diag_2_304
 diag_2_305
@@ -981,6 +989,7 @@ diag_2_35
 diag_2_350
 diag_2_351
 diag_2_352
+diag_2_353
 diag_2_354
 diag_2_355
 diag_2_356
@@ -996,7 +1005,6 @@ diag_2_368
 diag_2_369
 diag_2_372
 diag_2_373
-diag_2_374
 diag_2_376
 diag_2_377
 diag_2_378
@@ -1098,6 +1106,7 @@ diag_2_496
 diag_2_5
 diag_2_500
 diag_2_501
+diag_2_506
 diag_2_507
 diag_2_508
 diag_2_510
@@ -1117,7 +1126,6 @@ diag_2_522
 diag_2_524
 diag_2_527
 diag_2_528
-diag_2_529
 diag_2_53
 diag_2_530
 diag_2_531
@@ -1156,7 +1164,6 @@ diag_2_576
 diag_2_577
 diag_2_578
 diag_2_579
-diag_2_580
 diag_2_581
 diag_2_583
 diag_2_584
@@ -1182,7 +1189,6 @@ diag_2_608
 diag_2_610
 diag_2_611
 diag_2_614
-diag_2_615
 diag_2_616
 diag_2_617
 diag_2_618
@@ -1208,6 +1214,7 @@ diag_2_654
 diag_2_656
 diag_2_658
 diag_2_659
+diag_2_66
 diag_2_661
 diag_2_663
 diag_2_664
@@ -1217,7 +1224,6 @@ diag_2_674
 diag_2_680
 diag_2_681
 diag_2_682
-diag_2_683
 diag_2_684
 diag_2_685
 diag_2_686
@@ -1232,6 +1238,7 @@ diag_2_7
 diag_2_70
 diag_2_701
 diag_2_702
+diag_2_703
 diag_2_705
 diag_2_706
 diag_2_707
@@ -1330,7 +1337,6 @@ diag_2_842
 diag_2_843
 diag_2_844
 diag_2_845
-diag_2_846
 diag_2_847
 diag_2_850
 diag_2_851
@@ -1347,7 +1353,6 @@ diag_2_867
 diag_2_868
 diag_2_869
 diag_2_870
-diag_2_871
 diag_2_872
 diag_2_873
 diag_2_879
@@ -1356,9 +1361,9 @@ diag_2_880
 diag_2_881
 diag_2_882
 diag_2_883
-diag_2_884
 diag_2_891
 diag_2_892
+diag_2_893
 diag_2_894
 diag_2_9
 diag_2_905
@@ -1371,6 +1376,8 @@ diag_2_911
 diag_2_912
 diag_2_913
 diag_2_915
+diag_2_916
+diag_2_917
 diag_2_918
 diag_2_919
 diag_2_920
@@ -1382,6 +1389,7 @@ diag_2_927
 diag_2_933
 diag_2_934
 diag_2_94
+diag_2_942
 diag_2_944
 diag_2_945
 diag_2_947
@@ -1392,7 +1400,6 @@ diag_2_955
 diag_2_958
 diag_2_959
 diag_2_96
-diag_2_962
 diag_2_963
 diag_2_965
 diag_2_967
@@ -1402,14 +1409,12 @@ diag_2_972
 diag_2_974
 diag_2_975
 diag_2_977
-diag_2_980
 diag_2_987
 diag_2_989
 diag_2_99
 diag_2_990
 diag_2_991
 diag_2_992
-diag_2_994
 diag_2_995
 diag_2_996
 diag_2_997
@@ -1419,29 +1424,31 @@ diag_2_E812
 diag_2_E813
 diag_2_E814
 diag_2_E816
-diag_2_E817
 diag_2_E818
 diag_2_E819
 diag_2_E821
 diag_2_E826
+diag_2_E829
 diag_2_E849
 diag_2_E850
 diag_2_E853
 diag_2_E854
 diag_2_E858
-diag_2_E868
 diag_2_E870
 diag_2_E878
 diag_2_E879
 diag_2_E880
 diag_2_E881
+diag_2_E882
+diag_2_E883
 diag_2_E884
 diag_2_E885
 diag_2_E887
 diag_2_E888
+diag_2_E890
+diag_2_E900
 diag_2_E905
 diag_2_E906
-diag_2_E915
 diag_2_E916
 diag_2_E917
 diag_2_E918
@@ -1449,6 +1456,7 @@ diag_2_E919
 diag_2_E924
 diag_2_E927
 diag_2_E928
+diag_2_E929
 diag_2_E930
 diag_2_E931
 diag_2_E932
@@ -1471,13 +1479,14 @@ diag_2_V02
 diag_2_V08
 diag_2_V09
 diag_2_V10
-diag_2_V11
 diag_2_V12
 diag_2_V14
 diag_2_V15
 diag_2_V16
 diag_2_V17
+diag_2_V18
 diag_2_V23
+diag_2_V25
 diag_2_V42
 diag_2_V43
 diag_2_V44
@@ -1490,6 +1499,7 @@ diag_2_V54
 diag_2_V55
 diag_2_V57
 diag_2_V58
+diag_2_V60
 diag_2_V61
 diag_2_V62
 diag_2_V63
@@ -1500,7 +1510,6 @@ diag_2_V69
 diag_2_V70
 diag_2_V72
 diag_2_V85
-diag_2_V86
 diag_3_11
 diag_3_110
 diag_3_111
@@ -1515,8 +1524,10 @@ diag_3_135
 diag_3_136
 diag_3_138
 diag_3_139
+diag_3_14
 diag_3_141
 diag_3_146
+diag_3_148
 diag_3_150
 diag_3_151
 diag_3_152
@@ -1545,6 +1556,7 @@ diag_3_188
 diag_3_189
 diag_3_191
 diag_3_192
+diag_3_193
 diag_3_195
 diag_3_196
 diag_3_197
@@ -1594,6 +1606,7 @@ diag_3_250.21
 diag_3_250.22
 diag_3_250.23
 diag_3_250.3
+diag_3_250.31
 diag_3_250.4
 diag_3_250.41
 diag_3_250.42
@@ -1623,7 +1636,6 @@ diag_3_260
 diag_3_261
 diag_3_262
 diag_3_263
-diag_3_265
 diag_3_266
 diag_3_268
 diag_3_27
@@ -1665,6 +1677,7 @@ diag_3_304
 diag_3_305
 diag_3_306
 diag_3_307
+diag_3_308
 diag_3_309
 diag_3_310
 diag_3_311
@@ -1707,12 +1720,13 @@ diag_3_357
 diag_3_358
 diag_3_359
 diag_3_360
+diag_3_361
 diag_3_362
 diag_3_365
-diag_3_365.44
 diag_3_366
 diag_3_368
 diag_3_369
+diag_3_370
 diag_3_372
 diag_3_373
 diag_3_374
@@ -1722,6 +1736,7 @@ diag_3_378
 diag_3_379
 diag_3_38
 diag_3_380
+diag_3_381
 diag_3_382
 diag_3_383
 diag_3_384
@@ -1730,6 +1745,7 @@ diag_3_386
 diag_3_387
 diag_3_388
 diag_3_389
+diag_3_391
 diag_3_394
 diag_3_395
 diag_3_396
@@ -1804,7 +1820,6 @@ diag_3_481
 diag_3_482
 diag_3_483
 diag_3_484
-diag_3_485
 diag_3_486
 diag_3_487
 diag_3_49
@@ -1850,7 +1865,6 @@ diag_3_537
 diag_3_538
 diag_3_54
 diag_3_540
-diag_3_542
 diag_3_543
 diag_3_550
 diag_3_552
@@ -1899,7 +1913,6 @@ diag_3_599
 diag_3_600
 diag_3_601
 diag_3_602
-diag_3_603
 diag_3_604
 diag_3_605
 diag_3_607
@@ -1915,6 +1928,7 @@ diag_3_620
 diag_3_621
 diag_3_622
 diag_3_623
+diag_3_624
 diag_3_625
 diag_3_626
 diag_3_627
@@ -1931,7 +1945,6 @@ diag_3_653
 diag_3_654
 diag_3_655
 diag_3_656
-diag_3_657
 diag_3_658
 diag_3_659
 diag_3_66
@@ -1942,7 +1955,7 @@ diag_3_664
 diag_3_665
 diag_3_669
 diag_3_670
-diag_3_671
+diag_3_674
 diag_3_680
 diag_3_681
 diag_3_682
@@ -2008,7 +2021,6 @@ diag_3_750
 diag_3_751
 diag_3_752
 diag_3_753
-diag_3_754
 diag_3_755
 diag_3_756
 diag_3_757
@@ -2031,6 +2043,7 @@ diag_3_791
 diag_3_792
 diag_3_793
 diag_3_794
+diag_3_795
 diag_3_796
 diag_3_797
 diag_3_799
@@ -2042,6 +2055,7 @@ diag_3_805
 diag_3_807
 diag_3_808
 diag_3_810
+diag_3_811
 diag_3_812
 diag_3_813
 diag_3_814
@@ -2055,8 +2069,9 @@ diag_3_824
 diag_3_825
 diag_3_826
 diag_3_831
+diag_3_834
 diag_3_836
-diag_3_837
+diag_3_838
 diag_3_840
 diag_3_841
 diag_3_842
@@ -2067,6 +2082,7 @@ diag_3_848
 diag_3_850
 diag_3_851
 diag_3_852
+diag_3_853
 diag_3_854
 diag_3_860
 diag_3_861
@@ -2078,18 +2094,17 @@ diag_3_866
 diag_3_867
 diag_3_868
 diag_3_870
+diag_3_871
 diag_3_872
 diag_3_873
 diag_3_875
 diag_3_876
-diag_3_879
+diag_3_877
 diag_3_88
-diag_3_880
 diag_3_881
 diag_3_882
 diag_3_883
 diag_3_884
-diag_3_890
 diag_3_891
 diag_3_892
 diag_3_893
@@ -2114,6 +2129,7 @@ diag_3_922
 diag_3_923
 diag_3_924
 diag_3_928
+diag_3_930
 diag_3_933
 diag_3_934
 diag_3_935
@@ -2124,7 +2140,9 @@ diag_3_944
 diag_3_945
 diag_3_948
 diag_3_951
+diag_3_952
 diag_3_953
+diag_3_955
 diag_3_956
 diag_3_958
 diag_3_959
@@ -2133,7 +2151,9 @@ diag_3_965
 diag_3_966
 diag_3_967
 diag_3_969
+diag_3_970
 diag_3_971
+diag_3_972
 diag_3_980
 diag_3_987
 diag_3_989
@@ -2146,23 +2166,21 @@ diag_3_998
 diag_3_999
 diag_3_E812
 diag_3_E813
+diag_3_E815
 diag_3_E816
 diag_3_E817
 diag_3_E818
 diag_3_E819
 diag_3_E822
-diag_3_E825
 diag_3_E826
+diag_3_E828
 diag_3_E849
 diag_3_E850
 diag_3_E852
-diag_3_E853
-diag_3_E854
 diag_3_E855
 diag_3_E858
 diag_3_E861
 diag_3_E864
-diag_3_E865
 diag_3_E870
 diag_3_E876
 diag_3_E878
@@ -2173,18 +2191,13 @@ diag_3_E882
 diag_3_E883
 diag_3_E884
 diag_3_E885
-diag_3_E886
 diag_3_E887
 diag_3_E888
 diag_3_E892
 diag_3_E894
-diag_3_E900
 diag_3_E901
-diag_3_E904
 diag_3_E905
 diag_3_E906
-diag_3_E912
-diag_3_E915
 diag_3_E916
 diag_3_E917
 diag_3_E919
@@ -2213,9 +2226,7 @@ diag_3_E946
 diag_3_E947
 diag_3_E949
 diag_3_E950
-diag_3_E955
 diag_3_E956
-diag_3_E965
 diag_3_E966
 diag_3_E980
 diag_3_E987
@@ -2223,7 +2234,6 @@ diag_3_V01
 diag_3_V02
 diag_3_V03
 diag_3_V06
-diag_3_V07
 diag_3_V08
 diag_3_V09
 diag_3_V10
@@ -2235,6 +2245,7 @@ diag_3_V15
 diag_3_V16
 diag_3_V17
 diag_3_V18
+diag_3_V22
 diag_3_V23
 diag_3_V25
 diag_3_V27
@@ -2272,7 +2283,6 @@ nateglinide_Down
 nateglinide_No
 nateglinide_Steady
 nateglinide_Up
-chlorpropamide_Down
 chlorpropamide_No
 chlorpropamide_Steady
 chlorpropamide_Up
@@ -2300,7 +2310,6 @@ rosiglitazone_Down
 rosiglitazone_No
 rosiglitazone_Steady
 rosiglitazone_Up
-acarbose_Down
 acarbose_No
 acarbose_Steady
 acarbose_Up
@@ -2312,6 +2321,8 @@ troglitazone_No
 troglitazone_Steady
 tolazamide_No
 tolazamide_Steady
+examide_No
+citoglipton_No
 insulin_Down
 insulin_No
 insulin_Steady
@@ -2369,6 +2380,7 @@ discharge_disposition_id_9
 admission_source_id_1
 admission_source_id_10
 admission_source_id_11
+admission_source_id_13
 admission_source_id_14
 admission_source_id_17
 admission_source_id_2

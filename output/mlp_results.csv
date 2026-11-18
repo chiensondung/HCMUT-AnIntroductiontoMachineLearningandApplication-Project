@@ -1,0 +1,3 @@
+label,alpha,learning_rate_init,train_macro_f1,val_macro_f1,test_accuracy,test_macro_f1,train_auc,val_auc,test_auc
+y_multi,0.1,0.001,0.3872,0.3752,0.5655,0.3646,,,
+y_bin,0.1,0.001,,,0.6239,,0.6977,0.6709,0.6696
