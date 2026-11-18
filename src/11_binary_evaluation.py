@@ -13,7 +13,7 @@ matplotlib.use("Agg")
 import matplotlib.pyplot as plt
 from sklearn.metrics import accuracy_score, confusion_matrix, f1_score, precision_score, recall_score, roc_auc_score, roc_curve
 
-NAMES = {"dt": "Decision Tree", "rf": "Random Forest", "mlp": "MLP", "ensemble": "Ensemble (trọng số AUC)"}
+NAMES = {"dt": "Decision Tree", "rf": "Random Forest", "lr": "Logistic Regression", "mlp": "MLP", "ensemble": "Ensemble (trọng số AUC)"}
 
 y = pd.read_csv("output/y_test.csv")["y_bin"].to_numpy()
 files = sorted(glob.glob("output/proba_test_*.npy"))
