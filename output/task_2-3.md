@@ -65,7 +65,7 @@ $$\mathcal{L}_{CCE} = -\frac{1}{N}\sum_{i=1}^{N}\sum_{k=1}^{3} y_{i,k}\log(\hat{
 
 $$\mathcal{L}_{total} = \mathcal{L}_{CE} + \frac{\alpha}{2N} \sum_{l} \|W^{(l)}\|_2^2$$
 
-- `alpha` được quét trên {$10^{-5}$, $10^{-4}$, $10^{-3}$, $10^{-2}$, $10^{-1}$, $1$} cùng `learning_rate_init` $\in$ {$10^{-3}$, $10^{-2}$}, chọn theo tập validation (macro-F1 cho `y_multi`, AUC-ROC cho `y_bin`). Kết quả: `y_multi` chọn $\alpha$ = 0,100, `y_bin` chọn $\alpha$ = 0,100 (`output/mlp_results.csv`, `output/mlp_sweep.csv`).
+- `alpha` được quét trên {$10^{-5}$, $10^{-4}$, $10^{-3}$, $10^{-2}$, $10^{-1}$, $1$} cùng `learning_rate_init` $\in$ {$10^{-3}$, $10^{-2}$}, chọn theo tập validation (macro-F1 cho `y_multi`, AUC-ROC cho `y_bin`). Kết quả: `y_multi` chọn $\alpha$ = $10^{-4}$ (lr = $10^{-2}$), `y_bin` chọn $\alpha$ = $10^{-1}$ (lr = $10^{-3}$) (`output/mlp_results.csv`, `output/mlp_sweep.csv`).
 - L2 kéo các trọng số về gần 0 nhưng không triệt tiêu hoàn toàn (khác L1), phù hợp khi đầu vào có các thành phần tương quan.
 
 ## 2.4.3. Early Stopping

@@ -2321,8 +2321,6 @@ troglitazone_No
 troglitazone_Steady
 tolazamide_No
 tolazamide_Steady
-examide_No
-citoglipton_No
 insulin_Down
 insulin_No
 insulin_Steady
