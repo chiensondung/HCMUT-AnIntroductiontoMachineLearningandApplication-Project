@@ -4,3 +4,8 @@ __pycache__/
 README_Son.md
 *.xlsx
 ~$*
+output/*.csv
+output/*.npy
+output/*.npz
+output/*.png
+output/*.txt
