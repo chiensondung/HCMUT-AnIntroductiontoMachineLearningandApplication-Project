@@ -6,7 +6,7 @@ import numpy as np
 from scipy import sparse
 
 N_COMPONENTS = 60
-NGUONG_PHUONG_SAI = 1e-12
+NGUONG_PHUONG_SAI = 1e-9
 
 X_train = sparse.load_npz("output/X_train_onehot.npz").tocsr()
 X_test = sparse.load_npz("output/X_test_onehot.npz").tocsr()
@@ -21,6 +21,7 @@ mu = np.asarray(X_train.mean(axis=0)).ravel()
 mean_sq = np.asarray(X_train.multiply(X_train).mean(axis=0)).ravel()
 var = mean_sq - mu**2
 
+# E[x^2] - mu^2 có sai số làm tròn ~1e-12 nên cột hằng số vẫn ra var > 0; ngưỡng 1e-9 loại được chúng
 giu = var > NGUONG_PHUONG_SAI
 print("Bỏ", (~giu).sum(), "cột phương sai 0 trên train:", [c for c, g in zip(cols, giu) if not g])
 
