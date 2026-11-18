@@ -1,0 +1,4 @@
+mo_hinh,test_accuracy,macro_f1,recall_<30,recall_>30,recall_NO,so_lan_doan_<30
+RF không class_weight,0.5492,0.3587,0.0076,0.3305,0.8108,59
+RF class_weight=balanced,0.5502,0.3542,0.0089,0.2993,0.8331,59
+Mốc: luôn đoán NO,0.5323,0.2316,0.0,0.0,1.0,0

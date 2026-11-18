@@ -1,0 +1,11 @@
+tap,nhan,lop,so_mau,ty_le
+train,y_multi,<30,8897,0.1116
+train,y_multi,>30,27930,0.3503
+train,y_multi,NO,42899,0.5381
+train,y_bin,0,42899,0.5381
+train,y_bin,1,36827,0.4619
+test,y_multi,<30,2353,0.1147
+test,y_multi,>30,7243,0.353
+test,y_multi,NO,10922,0.5323
+test,y_bin,0,10922,0.5323
+test,y_bin,1,9596,0.4677

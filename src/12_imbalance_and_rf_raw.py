@@ -50,7 +50,9 @@ for ten, d in (("train", y_tr_df), ("test", y_te_df)):
 pd.DataFrame(rows).round(4).to_csv("output/imbalance_distribution.csv", index=False)
 
 # ---------------- 4a.2 RF y_multi có / không class_weight ----------------
-cfg = pd.read_csv("output/rf_results.csv", dtype={"max_depth": str}).set_index("label")
+# keep_default_na=False: pandas đọc chữ "None" (max_depth không giới hạn) thành NaN nếu không tắt
+cfg = pd.read_csv("output/rf_results.csv", dtype={"max_depth": str}, keep_default_na=False,
+                  na_values=[""]).set_index("label")
 assert {"y_multi", "y_bin"} <= set(cfg.index), "rf_results.csv (Task 1) thiếu dòng y_multi hoặc y_bin"
 depth = lambda s: None if s == "None" else int(s)
 X_pca_tr, X_pca_te = np.load("output/X_train_pca.npy"), np.load("output/X_test_pca.npy")
