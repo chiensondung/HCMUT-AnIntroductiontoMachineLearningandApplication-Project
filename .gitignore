@@ -1,5 +1,4 @@
 .venv/
 *.conflict*
 __pycache__/
-output/*.npy
 output/*.npz
