@@ -1,6 +1,6 @@
 ## Kết quả MLP (120-60-20, ReLU) và Aggregate Ensemble
 
-> Chạy trên đầu ra của pipeline 01→06 (train 79.726, test 20.518). Ensemble hiện chỉ gồm MLP và Logistic Regression vì chưa có `proba_*` của Decision Tree và Random Forest (Task 1); chạy lại 09b khi có, kết quả ensemble bên dưới sẽ đổi.
+> Chạy trên đầu ra của pipeline 01→06 (train 79.726, test 20.518). Ensemble gồm 4 thành viên: Decision Tree và Random Forest (Task 1, Sơn), MLP (09a) và Logistic Regression (09b).
 
 ### MLP: chọn siêu tham số trên validation, refit trên toàn bộ train
 
@@ -23,17 +23,21 @@ Trọng số tính trên validation (`output/ensemble_weights.csv`):
 
 | Mô hình | AUC validation | $w$ theo AUC | $w$ đều | $w$ theo AUC − 0,5 |
 |---|---|---|---|---|
-| MLP | 0,6706 | 0,5149 | 0,5000 | 0,5643 |
-| LR | 0,6317 | 0,4851 | 0,5000 | 0,4357 |
+| DT | 0,6162 | 0,2395 | 0,2500 | 0,2028 |
+| RF | 0,6542 | 0,2543 | 0,2500 | 0,2693 |
+| MLP | 0,6706 | 0,2607 | 0,2500 | 0,2979 |
+| LR | 0,6317 | 0,2456 | 0,2500 | 0,2300 |
 
 Kết quả trên test (`output/ensemble_results.csv`, ngưỡng 0,5):
 
 | Mô hình | AUC | Accuracy | Recall | F1 |
 |---|---|---|---|---|
+| DT | 0,6140 | 0,5876 | 0,5119 | 0,5372 |
+| RF | 0,6537 | 0,6085 | 0,4848 | 0,5367 |
 | MLP | 0,6683 | 0,6212 | 0,5950 | 0,5950 |
 | LR | 0,6344 | 0,5992 | 0,4631 | 0,5194 |
-| **Ensemble, $w \propto$ AUC** | 0,6669 | 0,6240 | 0,5493 | 0,5774 |
-| Ensemble, trung bình đều | 0,6665 | 0,6235 | 0,5473 | 0,5762 |
-| Ensemble, $w \propto$ AUC − 0,5 | 0,6678 | 0,6236 | 0,5546 | 0,5795 |
+| **Ensemble, $w \propto$ AUC** | 0,6644 | 0,6192 | 0,5171 | 0,5595 |
+| Ensemble, trung bình đều | 0,6639 | 0,6188 | 0,5152 | 0,5584 |
+| Ensemble, $w \propto$ AUC − 0,5 | 0,6662 | 0,6198 | 0,5212 | 0,5618 |
 
-**Nhận xét.** Với hai thành viên hiện có, Ensemble ($w \propto$ AUC) đạt AUC 0,6669, thấp hơn mô hình đơn tốt nhất là MLP (0,6683), vì Logistic Regression yếu hơn rõ (0,6344) kéo trung bình xuống. Ba cách đặt trọng số cho AUC test chênh nhau không quá 0,0013. Chưa thể kết luận ensemble có lợi hay không cho đến khi có Decision Tree và Random Forest.
+**Nhận xét.** Ensemble ($w \propto$ AUC) đạt AUC 0,6644, thấp hơn mô hình đơn tốt nhất là MLP (0,6683) 0,0039 điểm AUC, nhưng cao hơn mô hình yếu nhất (0,6140 của DT) và Accuracy (0,6192) cao hơn mọi mô hình đơn trừ MLP. Vì AUC validation của 4 mô hình nằm trong khoảng hẹp (0,6162 đến 0,6706), trọng số theo AUC xấp xỉ 0,25 mỗi mô hình, nên ensemble gần với trung bình đơn giản; ba cách đặt trọng số cho AUC test chênh nhau không quá 0,0023. Ensemble kéo MLP (mô hình mạnh nhất) về phía DT và LR yếu hơn, nên trong thực nghiệm này ensemble theo AUC không vượt mô hình đơn tốt nhất.
