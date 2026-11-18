@@ -49,4 +49,4 @@ Ma trận One-Hot rất thưa nên phương sai trải đều trên hàng nghìn
   - `age_[20-30)`: trọng số -0,1788
   - `diag_3_648`: trọng số -0,1676
 
-**Lưu ý về PC3.** PC3 chỉ gồm hai cột `citoglipton_No` và `examide_No` (trọng số ±0,7071, eigenvalue 4,0000): đây là hai cột gần như hằng số và trùng nhau, nên sau khi chuẩn hóa từng cột về độ lệch chuẩn 1 chúng tạo thành một hướng riêng chiếm một thành phần chính mà không mang thông tin dự báo. Đây là hệ quả của việc chạy PCA trên ma trận tương quan với cột phương sai rất nhỏ; có thể loại các cột này trước PCA để tránh lãng phí một thành phần.
+**Lưu ý về PC3.** PC3 chỉ gồm hai cột `citoglipton_No` và `examide_No` (trọng số ±0,7071, eigenvalue 4,0000). Hai cột này **toàn bằng 1 trên tập train** (thuộc tính `examide`, `citoglipton` chỉ có giá trị `No`, xem Mục 1.3.3), tức phương sai bằng 0, nhưng bộ lọc phương sai của bước 05 không loại chúng ở lần chạy chuẩn nên chúng tạo thành một hướng riêng không mang thông tin dự báo và chiếm mất một thành phần chính. Nên loại hai cột này trước One-Hot hoặc sửa ngưỡng lọc phương sai ở bước 05.
