@@ -1,2 +1,6 @@
-pandas
-scikit-learn
+pandas==2.2.3
+# Ghim theo Colab: cách chia train/test ở bước 03 (StratifiedGroupKFold) phụ thuộc phiên bản scikit-learn
+scikit-learn==1.6.1
+numpy==2.4.6
+matplotlib
+tabulate
