@@ -80,4 +80,4 @@ Phân phối nhãn giống nhau giữa hai tập (chứng tỏ chia phân tầng
 | Train | 53,69% | 35,09% | 11,22% | 46,31% |
 | Test | 53,69% | 35,09% | 11,22% | 46,31% |
 
-Dữ liệu được lưu tại `data/train_task1_3.csv` và `data/test_task1_3.csv`.
+Dữ liệu được lưu tại `output/task_1-3_train.csv` và `output/task_1-3_test.csv`.

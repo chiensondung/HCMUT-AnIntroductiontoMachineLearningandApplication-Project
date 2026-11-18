@@ -2,19 +2,18 @@
 (Hidden layers: 120, 60, 20, ReLU) và lập trình Aggregate Ensemble Model
 dựa trên trọng số AUC-ROC.
 
-Đầu vào: 1 file CSV duy nhất (input_dir), là kết quả sau các bước 1.1-1.3
-(lọc/làm sạch, tạo nhãn) và 2.1-2.3 (mã hóa biến phân loại, chuẩn hóa/PCA) —
-tức các cột đặc trưng trong file này phải là số (đã mã hóa), kèm cột nhãn
-y_bin. Chỉnh input_dir và feature_cols/target_col bên dưới cho khớp với
-file đầu ra thực tế của các bước trước.
+Đọc (pipeline chung, kết quả bước One-Hot + PCA):
+    output/X_train_pca.npy, output/X_test_pca.npy  (60 thành phần chính)
+    output/y_train.csv, output/y_test.csv          (cột y_multi, y_bin; cùng thứ tự dòng)
+Ghi:
+    output/3.3_ket_qua_test.csv, output/3.3_roc_curve_test.png, output/3.3_tomtat.md
 
 Mô hình nền (base models): Logistic Regression, Random Forest, Gradient
 Boosting, MLP — mỗi mô hình huấn luyện trên train, đánh giá AUC-ROC trên
-validation. Ensemble = trung bình có trọng số các xác suất dự đoán, trọng
-số tỉ lệ thuận với AUC-ROC của từng mô hình trên validation. Đánh giá cuối
-cùng trên test (tách riêng, không dùng để chọn trọng số).
-
-Kết quả lưu vào task_3-3-result/.
+validation (20% tách từ train). Ensemble = trung bình có trọng số các xác suất
+dự đoán, trọng số tỉ lệ thuận với AUC-ROC của từng mô hình trên validation.
+Đánh giá cuối cùng trên test (tách riêng, không dùng để chọn trọng số).
+Nhãn: y_bin (1 = tái nhập viện <30 hoặc >30 ngày, 0 = không).
 """
 import numpy as np
 import pandas as pd
@@ -31,32 +30,26 @@ from sklearn.model_selection import train_test_split
 from sklearn.neural_network import MLPClassifier
 from sklearn.preprocessing import StandardScaler
 
-# --- Cấu hình đầu vào: sửa lại cho khớp với file đầu ra của bước 2.3 ---
-input_dir = "data/train.csv"
-target_col = "y_bin"
-cot_loai_bo = ["y_multi", "y_bin"]  # các cột không phải đặc trưng
-
-KET_QUA_DIR = "task_3-3-result"
+KET_QUA_DIR = "output"
 RANDOM_STATE = 42
 
-# --- 1. Đọc dữ liệu đã tiền xử lý/mã hóa/chuẩn hóa từ các bước trước ---
-df = pd.read_csv(input_dir, low_memory=False)
-feature_cols = [c for c in df.columns if c not in cot_loai_bo]
-X = df[feature_cols].astype(float)
-y = df[target_col].to_numpy()
+# --- 1. Đọc dữ liệu PCA và nhãn từ các bước trước ---
+X_train = np.load("output/X_train_pca.npy")
+X_test = np.load("output/X_test_pca.npy")
+y_train = pd.read_csv("output/y_train.csv")["y_bin"].to_numpy()
+y_test = pd.read_csv("output/y_test.csv")["y_bin"].to_numpy()
+assert len(X_train) == len(y_train) and len(X_test) == len(y_test)
 
-# --- 2. Chia train / validation / test (60/20/20), phân tầng theo nhãn ---
-X_trainval, X_test, y_trainval, y_test = train_test_split(
-    X, y, test_size=0.2, stratify=y, random_state=RANDOM_STATE,
-)
+# --- 2. Validation = 20% của train (phân tầng); test giữ riêng ---
 X_tr, X_val, y_tr, y_val = train_test_split(
-    X_trainval, y_trainval, test_size=0.25, stratify=y_trainval, random_state=RANDOM_STATE,
-)  # 0.25 * 0.8 = 0.2 -> train 60% / val 20% / test 20%
-
-scaler = StandardScaler().fit(X_tr)
+    X_train, y_train, test_size=0.2, stratify=y_train, random_state=RANDOM_STATE,
+)
+scaler = StandardScaler().fit(X_tr)  # chuẩn hóa sau PCA, fit trên train
 X_tr_s = scaler.transform(X_tr)
 X_val_s = scaler.transform(X_val)
 X_test_s = scaler.transform(X_test)
+print("Số đặc trưng:", X_tr_s.shape[1],
+      "| train/val/test:", len(y_tr), len(y_val), len(y_test))
 
 # --- 3. Các mô hình nền ---
 mo_hinh = {
@@ -126,7 +119,7 @@ bang_ket_qua["Aggregate_Ensemble"] = danh_gia(y_test, proba_ensemble_test)
 df_ket_qua = pd.DataFrame(bang_ket_qua).T.round(4)
 df_ket_qua.insert(0, "trong_so_ensemble", [round(trong_so.get(ten, np.nan), 4) for ten in df_ket_qua.index])
 print("\nKết quả trên tập test:\n", df_ket_qua)
-df_ket_qua.to_csv(f"{KET_QUA_DIR}/ket_qua_test.csv")
+df_ket_qua.to_csv(f"{KET_QUA_DIR}/3.3_ket_qua_test.csv")
 
 # --- 6. Biểu đồ ROC các mô hình + ensemble trên test ---
 fig, ax = plt.subplots(figsize=(7, 6))
@@ -137,7 +130,7 @@ RocCurveDisplay.from_predictions(y_test, proba_ensemble_test, name="Aggregate En
 ax.plot([0, 1], [0, 1], "--", color="gray", linewidth=1)
 ax.set_title("ROC curve trên tập test: mô hình nền vs Aggregate Ensemble")
 fig.tight_layout()
-fig.savefig(f"{KET_QUA_DIR}/roc_curve_test.png", dpi=150)
+fig.savefig(f"{KET_QUA_DIR}/3.3_roc_curve_test.png", dpi=150)
 plt.close(fig)
 
 # --- 7. Tóm tắt markdown ---
@@ -148,7 +141,7 @@ dong = [
     "\n## Kết quả trên tập test\n",
     df_ket_qua.to_markdown(),
 ]
-with open(f"{KET_QUA_DIR}/task_3-3_tomtat.md", "w", encoding="utf-8") as f:
+with open(f"{KET_QUA_DIR}/3.3_tomtat.md", "w", encoding="utf-8") as f:
     f.write("\n".join(dong))
 
 print("\nĐã lưu kết quả vào", KET_QUA_DIR)
